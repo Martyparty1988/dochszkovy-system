@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pracovní výkazy</title>
+  <script defer src="script.js"></script>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+</head>
+<body>
+  <header>
+    <h1>Pracovní výkazy - Maru & Marty</h1>
+  </header>
+
+  <main>
+    <div class="container">
+      <div class="card timer-card">
+        <h2>Aktuální směna</h2>
+        <div class="timer-display">
+          <div class="timer" id="timer-display">00:00:00</div>
+          <div id="status" class="status">Připraveno ke spuštění</div>
+        </div>
+        <div class="timer-controls">
+          <button class="btn btn-start" onclick="startTimer('Maru')">
+            <i class="fas fa-play"></i> Start Maru
+          </button>
+          <button class="btn btn-stop" onclick="stopTimer('Maru')">
+            <i class="fas fa-stop"></i> Stop Maru
+          </button>
+          <button class="btn btn-start" onclick="startTimer('Marty')">
+            <i class="fas fa-play"></i> Start Marty
+          </button>
+          <button class="btn btn-stop" onclick="stopTimer('Marty')">
+            <i class="fas fa-stop"></i> Stop Marty
+          </button>
+        </div>
+      </div>
+
+      <div class="card manual-entry-card">
+        <h2>Ruční zadání</h2>
+        <div class="form-group">
+          <label for="manual-person">Zaměstnanec:</label>
+          <select id="manual-person" class="form-control">
+            <option value="Maru">Maru</option>
+            <option value="Marty">Marty</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="manual-date">Datum:</label>
+          <input type="date" id="manual-date" class="form-control" />
+        </div>
+        <div class="form-group">
+          <label for="manual-hours">Odpracované hodiny:</label>
+          <input type="number" id="manual-hours" step="0.1" placeholder="Např. 5.5" class="form-control" />
+        </div>
+        <button class="btn btn-add" onclick="addManual()">
+          <i class="fas fa-plus"></i> Přidat záznam
+        </button>
+      </div>
+
+      <div class="card summary-card">
+        <h2>Souhrnné statistiky</h2>
+        <div class="summary-grid">
+          <div class="summary-item">
+            <h3>Maru</h3>
+            <p>Celkem hodin: <span id="maru-total-hours">0</span></p>
+            <p>Celkem výdělek: <span id="maru-total-wage">0</span> Kč</p>
+            <p>Celkem na dluh: <span id="maru-total-debt">0</span> Kč</p>
+            <p>Celkem vyplaceno: <span id="maru-total-payout">0</span> Kč</p>
+          </div>
+          <div class="summary-item">
+            <h3>Marty</h3>
+            <p>Celkem hodin: <span id="marty-total-hours">0</span></p>
+            <p>Celkem výdělek: <span id="marty-total-wage">0</span> Kč</p>
+            <p>Celkem na dluh: <span id="marty-total-debt">0</span> Kč</p>
+            <p>Celkem vyplaceno: <span id="marty-total-payout">0</span> Kč</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="card data-visualization">
+        <h2>Vizualizace dat</h2>
+        <div class="chart-container">
+          <canvas id="hours-chart"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <div class="log-container">
+      <div class="card">
+        <div class="log-header">
+          <h2>Historie záznamů</h2>
+          <div class="log-controls">
+            <button class="btn btn-export" onclick="exportCSV()">
+              <i class="fas fa-file-export"></i> Export do CSV
+            </button>
+            <button class="btn btn-clear" onclick="clearLogs()">
+              <i class="fas fa-trash"></i> Smazat vše
+            </button>
+          </div>
+        </div>
+        <div class="table-responsive">
+          <table id="log">
+            <thead>
+              <tr>
+                <th>Datum</th>
+                <th>Zaměstnanec</th>
+                <th>Odprac. hodiny</th>
+                <th>Výdělek</th>
+                <th>Na dluh</th>
+                <th>Vyplaceno</th>
+                <th>Akce</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 Pracovní výkazy | Verze 2.0</p>
+  </footer>
+
+  <div id="confirmation-modal" class="modal">
+    <div class="modal-content">
+      <h2>Potvrzení</h2>
+      <p id="modal-message">Opravdu chcete smazat všechny záznamy?</p>
+      <div class="modal-buttons">
+        <button id="modal-confirm" class="btn btn-danger">Ano</button>
+        <button id="modal-cancel" class="btn">Ne</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+</body>
+</html>
